@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block title %}Resultado · AgroPredict{% endblock %}
+{% block top_title %}Resultado de predicción #{{ p.id }}{% endblock %}
+{% block content %}
+
+<section class="panels">
+  <div class="panel">
+    <h3>Resumen</h3>
+    <div class="grid-2">
+      <div class="card small">
+        <div class="muted">Frutal</div>
+        <div class="big">{{ p.get_arbol_frutal_display }}</div>
+      </div>
+      <div class="card small">
+        <div class="muted">Región</div>
+        <div class="big">{{ p.region }}</div>
+      </div>
+      <div class="card small">
+        <div class="muted">Superficie</div>
+        <div class="big">{{ p.superficie_ha }} ha</div>
+      </div>
+      <div class="card small">
+        <div class="muted">Temp. Prom.</div>
+        <div class="big">{{ p.temp_prom_anual_c }} °C</div>
+      </div>
+      <div class="card small">
+        <div class="muted">Precipitación</div>
+        <div class="big">{{ p.precip_anual_mm }} mm</div>
+      </div>
+      <div class="card small">
+        <div class="muted">Radiación</div>
+        <div class="big">{{ p.radiacion_anual_wm2 }} W/m²</div>
+      </div>
+      <div class="card small accent">
+        <div class="muted">Producción esperada</div>
+        <div class="big">{{ p.produccion_esperada_t }} t</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Proyección (5 periodos)</h3>
+    <svg class="chart" viewBox="0 0 720 240" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.05"/>
+        </linearGradient>
+      </defs>
+      <line x1="40" y1="20" x2="40" y2="200" stroke="#E4E8F0" stroke-width="2"/>
+      <line x1="40" y1="200" x2="700" y2="200" stroke="#E4E8F0" stroke-width="2"/>
+      {% for gx in grid_x %}
+        <line x1="{{ gx }}" y1="20" x2="{{ gx }}" y2="200" stroke="#F0F3F9" stroke-width="1"/>
+      {% endfor %}
+      <polyline fill="none" stroke="var(--accent)" stroke-width="4" points="{{ points }}"/>
+      <polygon fill="url(#g1)" points="{{ points }} 700,200 40,200"/>
+    </svg>
+
+    <table class="table">
+      <thead><tr><th>#</th><th>Periodo</th><th>Producción (t)</th></tr></thead>
+      <tbody>
+        {% for v in proy %}
+          <tr><td>{{ forloop.counter }}</td><td>T+{{ forloop.counter|add:"-1" }}</td><td>{{ v }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="panel">
+    <h3>Editar parámetros</h3>
+    <form method="post" class="form">{% csrf_token %}
+      <div class="form-grid" style="grid-template-columns:1fr;">
+        <div class="form-control">
+          <label>Árbol frutal</label>
+          {{ form.arbol_frutal }}
+          <div class="actions" style="margin-top:6px; gap:6px;">
+            <button type="button" class="btn-outline" onclick="document.getElementById('id_arbol_frutal').value='manzana'; this.form.submit()">Manzana</button>
+            <button type="button" class="btn-outline" onclick="document.getElementById('id_arbol_frutal').value='cereza'; this.form.submit()">Cereza</button>
+          </div>
+        </div>
+        <div class="form-control">
+          <label>Región</label>
+          {{ form.region }}
+        </div>
+        <div class="form-control">
+          <label>Superficie Plantada (ha)</label>
+          {{ form.superficie_ha }}
+        </div>
+        <div class="form-control">
+          <label>Temp. Prom. Anual (°C)</label>
+          {{ form.temp_prom_anual_c }}
+        </div>
+        <div class="form-control">
+          <label>Precip. Anual (mm)</label>
+          {{ form.precip_anual_mm }}
+        </div>
+        <div class="form-control">
+          <label>Radiación Anual (W/m²)</label>
+          {{ form.radiacion_anual_wm2 }}
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn" type="submit">Actualizar y recalcular</button>
+        <a class="btn-outline" href="/">Volver</a>
+      </div>
+    </form>
+    {% if recomendaciones %}
+      <h4 style="margin-top:12px">Recomendaciones</h4>
+      <ul class="bullets">
+        {% for r in recomendaciones %}<li>{{ r }}</li>{% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{% block title %}AgroPredict{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<div class="app">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <a class="brand" href="/"><span class="logo"></span> AgroPredict</a>
+    <nav class="nav">
+      <a class="nav-item {% if request.path == '/' %}active{% endif %}" href="/">Dashboard</a>
+      <a class="nav-item {% if request.path == '/prediccion/' %}active{% endif %}" href="/prediccion/">Predicción</a>
+    </nav>
+    <div class="sb-foot">Hecho por Treering · Demo offline Sprint 1</div>
+  </aside>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="title">{% block top_title %}Dashboard ejecutivo{% endblock %}</div>
+    <div class="top-right">
+      {% if user.is_authenticated %}
+        <span class="chip">👤 {{ user.username }}</span>
+        <a class="btn-outline" href="{% url 'logout' %}">Salir</a>
+      {% else %}
+        <a class="btn" href="{% url 'login' %}">Ingresar</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <main class="main">
+    {% block content %}{% endblock %}
+  </main>
+</div>
+</body>
+</html>

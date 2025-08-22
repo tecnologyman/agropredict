@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard · AgroPredict{% endblock %}
+{% block top_title %}Dashboard ejecutivo{% endblock %}
+{% block content %}
+
+<section class="kpis">
+  <div class="card">
+    <div class="kpi-head">
+      <h4>Riesgo de heladas (hoy)</h4><span class="tag">Estado</span>
+    </div>
+    <div class="kpi-value">{{ kpi_riesgo_heladas }}</div>
+  </div>
+  <div class="card">
+    <div class="kpi-head">
+      <h4>ET0 estimada (hoy)</h4><span class="tag">Demanda agua</span>
+    </div>
+    <div class="kpi-value">{{ kpi_eto }} mm</div>
+  </div>
+  <div class="card">
+    <div class="kpi-head">
+      <h4>Ventana de riego (48h)</h4><span class="tag">Decisión</span>
+    </div>
+    <div class="kpi-value">{{ kpi_ventana_riego }}</div>
+  </div>
+  <div class="card">
+    <div class="kpi-head">
+      <h4>Precipitación (7 días)</h4><span class="tag">Acumulado</span>
+    </div>
+    <div class="kpi-value">{{ kpi_pp7d }} mm</div>
+  </div>
+</section>
+
+<section class="panel">
+  <h3>Producción esperada (últimas 5 predicciones)</h3>
+  <svg class="chart" viewBox="0 0 800 240" preserveAspectRatio="none">
+    <line x1="50" y1="20" x2="50" y2="220" stroke="#E4E8F0" stroke-width="2"/>
+    <line x1="50" y1="220" x2="780" y2="220" stroke="#E4E8F0" stroke-width="2"/>
+    {% for x in grid_x %}
+      <line x1="{{ x }}" y1="20" x2="{{ x }}" y2="220" stroke="#F0F3F9" stroke-width="1"/>
+    {% endfor %}
+    <polyline fill="none" stroke="var(--accent)" stroke-width="3" points="{{ dash_points }}"/>
+  </svg>
+  {% if ultimas %}
+  <div class="legend">
+    {% for p in ultimas %}
+      <span class="legend-item">#{{ p.id }} • {{ p.get_arbol_frutal_display }} • {{ p.produccion_esperada_t }} t</span>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="muted">Aún no hay predicciones. Crea la primera desde <a href="/prediccion/">Predicción</a>.</p>
+  {% endif %}
+</section>
+
+<section class="grid-list">
+  {% for item in ultimas %}
+    <article class="row-card">
+      <div>
+        <div class="h3">Predicción #{{ item.id }}</div>
+        <div class="muted">{{ item.get_arbol_frutal_display }} · {{ item.region }} · {{ item.creado|date:"d/m/Y H:i" }}</div>
+      </div>
+      <div class="right">
+        <div class="pill">Prod.: <b>{{ item.produccion_esperada_t }}</b> t</div>
+        <a class="btn-link" href="{% url 'prediccion_resultado' item.id %}">Ver detalle</a>
+      </div>
+    </article>
+  {% endfor %}
+</section>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Ingresar · AgroPredict{% endblock %}
+{% block top_title %}Ingresar{% endblock %}
+{% block content %}
+<section class="card" style="max-width:520px;margin:40px auto;">
+  <h1 class="h1">Ingreso</h1>
+  {% if form.errors %}
+    <div class="alert">Usuario o contraseña inválidos.</div>
+  {% endif %}
+  <form method="post" class="form">
+    {% csrf_token %}
+    <div class="form-grid" style="grid-template-columns:1fr;">
+      <div class="form-control">
+        <label>Usuario</label>
+        {{ form.username }}
+      </div>
+      <div class="form-control">
+        <label>Contraseña</label>
+        {{ form.password }}
+      </div>
+    </div>
+    <div class="actions">
+      <button type="submit" class="btn">Entrar</button>
+    </div>
+  </form>
+</section>
+{% endblock %}

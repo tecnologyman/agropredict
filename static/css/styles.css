@@ -1,0 +1,81 @@
+/* Styled theme for AgroPredict */
+:root{
+  --bg:#F6F7FC;
+  --ink:#1A1837;
+  --muted:#73788C;
+  --white:#fff;
+  --divider:#E4E8F0;
+  --accent:#7C3AED;      /* morado */
+  --accent-2:#FF3EA5;    /* magenta */
+  --green:#16A34A;
+  --radius:18px;
+  --shadow:0 6px 14px rgba(26,24,55,.06);
+  --font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:var(--font)}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+.app{display:grid;grid-template-columns:280px 1fr;grid-template-rows:72px 1fr;min-height:100vh}
+
+/* Sidebar */
+.sidebar{grid-row:1 / span 2;background:linear-gradient(180deg,#1F155E, var(--accent-2));color:#fff;padding:20px 18px;position:relative}
+.brand{display:block;color:#fff;font-weight:800;font-size:20px;margin-bottom:10px}
+.logo{width:28px;height:28px;background:#fff;clip-path:polygon(50% 0%, 15% 60%, 85% 60%);border-radius:3px;display:inline-block;margin-right:8px;vertical-align:middle}
+.nav{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+.nav-item{padding:12px 14px;border-radius:12px;color:#fff}
+.nav-item.active,.nav-item:hover{background:rgba(255,255,255,.18)}
+.sb-foot{position:absolute;left:18px;right:18px;bottom:14px;font-size:12px;opacity:.9}
+
+/* Topbar */
+.topbar{grid-column:2;background:#fff;border-bottom:2px solid var(--divider);display:flex;align-items:center;gap:12px;padding:0 20px}
+.title{font-weight:800;font-size:18px;margin-right:auto}
+.top-right{margin-left:auto;display:flex;gap:10px;align-items:center}
+.chip{background:#F2F3FA;border:1px solid var(--divider);border-radius:999px;padding:6px 10px;color:#4B4F63}
+.btn{background:var(--green);color:#fff;border:none;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer}
+.btn:hover{filter:brightness(0.95)}
+.btn-outline{background:#fff;color:var(--accent);border:2px solid var(--accent);border-radius:12px;padding:8px 12px;font-weight:800;cursor:pointer}
+.btn-link{background:transparent;color:var(--accent);padding:0;border:none;font-weight:700;cursor:pointer}
+
+/* Main content */
+.main{grid-column:2;padding:18px;display:grid;gap:16px}
+
+.card{background:#fff;border:1.5px solid var(--divider);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px}
+.card.small{padding:12px}
+.card.small.accent{border-color:#DAD3FF;background:#F8F7FF}
+.panel{background:#fff;border:1.5px solid var(--divider);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.kpi-head{display:flex;align-items:center;gap:8px}
+.kpi-head h4{margin:0;font-size:14px}
+.tag{margin-left:auto;background:#EEF0FA;color:#5D6380;border-radius:10px;padding:6px 10px;font-weight:700;font-size:12px}
+.kpi-value{font-weight:900;font-size:26px;color:var(--accent);margin-top:6px}
+
+.grid-2{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid-list{display:grid;gap:8px}
+.row-card{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--divider);border-radius:14px;background:#fff;padding:10px 12px}
+.h1{font-size:22px;margin:0 0 6px}
+.h3{font-size:16px;margin:0 0 8px}
+.muted{color:var(--muted)}
+.pill{background:#F6F7FC;border:1px solid var(--divider);border-radius:999px;padding:6px 10px}
+
+.form .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-control label{display:block;margin:0 0 6px;color:#4B4F63;font-weight:700}
+.input, input, select{border:1.5px solid var(--divider);border-radius:10px;padding:10px;background:#fff;font:var(--font)}
+.actions{margin-top:10px;display:flex;gap:8px;align-items:center}
+
+.table{width:100%;border-collapse:collapse;margin-top:10px}
+.table th,.table td{padding:10px 8px;border-bottom:1px solid #EBEEF5;text-align:left}
+.table th{color:var(--muted);font-weight:800}
+
+.chart{width:100%;height:240px;border:1px dashed #EEF1F7;border-radius:12px}
+.big{font-size:20px;font-weight:900}
+.alert{background:#FEF2F2;border:1.5px solid #FECACA;color:#991B1B;padding:10px;border-radius:10px;margin-bottom:10px}
+
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .form .form-grid{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+}

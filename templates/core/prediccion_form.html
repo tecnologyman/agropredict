@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Nueva Predicción · AgroPredict{% endblock %}
+{% block top_title %}Crear predicción{% endblock %}
+{% block content %}
+<form method="post" class="card form">
+  {% csrf_token %}
+  <div class="form-grid">
+    {{ form.non_field_errors }}
+    <div class="form-control">
+      <label>Árbol frutal</label>
+      {{ form.arbol_frutal }}
+      {{ form.arbol_frutal.errors }}
+    </div>
+    <div class="form-control">
+      <label>Región</label>
+      {{ form.region }}
+      {{ form.region.errors }}
+    </div>
+    <div class="form-control">
+      <label>Superficie Plantada (ha)</label>
+      {{ form.superficie_ha }}
+      {{ form.superficie_ha.errors }}
+    </div>
+    <div class="form-control">
+      <label>Temp. Prom. Anual (°C)</label>
+      {{ form.temp_prom_anual_c }}
+      {{ form.temp_prom_anual_c.errors }}
+    </div>
+    <div class="form-control">
+      <label>Precip. Anual (mm)</label>
+      {{ form.precip_anual_mm }}
+      {{ form.precip_anual_mm.errors }}
+    </div>
+    <div class="form-control">
+      <label>Radiación Anual (W/m²)</label>
+      {{ form.radiacion_anual_wm2 }}
+      {{ form.radiacion_anual_wm2.errors }}
+    </div>
+  </div>
+  <div class="actions">
+    <button class="btn" type="submit">Calcular predicción</button>
+    <a class="btn-outline" href="/">Cancelar</a>
+  </div>
+</form>
+{% endblock %}
