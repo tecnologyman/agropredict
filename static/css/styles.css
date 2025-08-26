@@ -23,7 +23,7 @@ a:hover{text-decoration:underline}
 /* Sidebar */
 .sidebar{grid-row:1 / span 2;background:linear-gradient(180deg,#1F155E, var(--accent-2));color:#fff;padding:20px 18px;position:relative}
 .brand{display:block;color:#fff;font-weight:800;font-size:20px;margin-bottom:10px}
-.logo{width:28px;height:28px;background:#fff;clip-path:polygon(50% 0%, 15% 60%, 85% 60%);border-radius:3px;display:inline-block;margin-right:8px;vertical-align:middle}
+.logo-img {height: 28px;width: auto;display: inline-block;}
 .nav{margin-top:10px;display:flex;flex-direction:column;gap:8px}
 .nav-item{padding:12px 14px;border-radius:12px;color:#fff}
 .nav-item.active,.nav-item:hover{background:rgba(255,255,255,.18)}
@@ -79,3 +79,4 @@ a:hover{text-decoration:underline}
   .form .form-grid{grid-template-columns:1fr}
   .kpis{grid-template-columns:1fr 1fr}
 }
+
