@@ -79,4 +79,34 @@ a:hover{text-decoration:underline}
   .form .form-grid{grid-template-columns:1fr}
   .kpis{grid-template-columns:1fr 1fr}
 }
+/* --- Sidebar / Brand --- */
+.sidebar{ overflow: hidden; }              /* evita que el logo “se salga” */
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#fff;
+  font-weight:800;
+  font-size:20px;
+  margin-bottom:10px;
+}
+.logo-img{
+  height:28px;             /* controla el tamaño del SVG */
+  width:auto;
+  display:inline-block;
+  flex-shrink:0;
+}
+.brand-name{ line-height:1; }
 
+/* --- Login / Auth --- */
+.auth-card{
+  max-width: 420px;
+  margin: 60px auto;
+  padding: 28px;
+}
+.form-grid.one-col{ grid-template-columns: 1fr; }
+.btn.full{ width:100%; }
+.field-error{ color:#B91C1C; font-size:13px; margin-top:4px; }
+
+/* Si quieres un poquito más de aire en el main del login */
+.page-login .main{ padding-top: 36px; }
