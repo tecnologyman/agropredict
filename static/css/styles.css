@@ -80,33 +80,36 @@ a:hover{text-decoration:underline}
   .kpis{grid-template-columns:1fr 1fr}
 }
 /* --- Sidebar / Brand --- */
-.sidebar{ overflow: hidden; }              /* evita que el logo “se salga” */
+.sidebar{ overflow:hidden; }
 .brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  color:#fff;
-  font-weight:800;
-  font-size:20px;
-  margin-bottom:10px;
+  display:flex; align-items:center; gap:10px;
+  color:#fff; font-weight:800; font-size:20px; margin-bottom:10px;
 }
-.logo-img{
-  height:28px;             /* controla el tamaño del SVG */
-  width:auto;
-  display:inline-block;
-  flex-shrink:0;
-}
+.logo-img{ height:28px; width:auto; display:inline-block; flex-shrink:0; }
 .brand-name{ line-height:1; }
 
-/* --- Login / Auth --- */
-.auth-card{
-  max-width: 420px;
-  margin: 60px auto;
-  padding: 28px;
+/* --- Auth page (login) --- */
+.page-auth .sidebar,
+.page-auth .topbar { display:none; }
+
+.page-auth .app{
+  grid-template-columns: 1fr;         /* sin sidebar */
+  grid-template-rows: 1fr;            /* sin topbar */
+  min-height: 100vh;
 }
-.form-grid.one-col{ grid-template-columns: 1fr; }
+
+.page-auth .main{
+  display:grid;
+  place-items:center;
+  padding: 32px;
+}
+
+.auth-card{
+  width:100%;
+  max-width:420px;
+  padding:28px;
+}
+
+.form-grid.one-col{ grid-template-columns:1fr; }
 .btn.full{ width:100%; }
 .field-error{ color:#B91C1C; font-size:13px; margin-top:4px; }
-
-/* Si quieres un poquito más de aire en el main del login */
-.page-login .main{ padding-top: 36px; }
