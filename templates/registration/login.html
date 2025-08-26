@@ -5,7 +5,10 @@
 
 {% block content %}
 <section class="card auth-card">
-  <h1 class="h1" style="text-align:center;">Ingreso</h1>
+  <header class="auth-head">
+    <div class="auth-title">Ingreso</div>
+    <div class="auth-sub">Accede a tu panel de predicciones</div>
+  </header>
 
   {% if form.errors %}
     <div class="alert">Usuario o contraseña inválidos.</div>
@@ -21,6 +24,7 @@
           <div class="field-error">{{ form.username.errors.0 }}</div>
         {% endif %}
       </div>
+
       <div class="form-control">
         <label>Contraseña</label>
         {{ form.password }}
@@ -29,9 +33,14 @@
         {% endif %}
       </div>
     </div>
+
     <div class="actions">
-      <button type="submit" class="btn full">Entrar</button>
+      <button type="submit" class="btn btn-block">Entrar</button>
     </div>
   </form>
+
+  <footer class="auth-foot muted">
+    Hecho por Treering · Demo offline Sprint 1
+  </footer>
 </section>
 {% endblock %}
