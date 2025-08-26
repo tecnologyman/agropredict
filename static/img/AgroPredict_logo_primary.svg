@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
+  <title id="title">AgroPredict — Logo</title>
+  <desc id="desc">Minimal tree with tech circuits and growth arrow, plus AgroPredict wordmark.</desc>
+  <defs>
+    <style>
+      .leaf { fill:#22C55E; }
+      .trunk { fill:#14532D; }
+      .tech { stroke:#0F766E; fill:none; }
+      .accent { stroke:#16A34A; fill:#16A34A; }
+      .text { fill:#111827; }
+    </style>
+  </defs>
+  <g transform="translate(60,35)">
+    <path class="leaf" d="M120,0c66.3,0,120,53.7,120,120s-53.7,120-120,120S0,186.3,0,120S53.7,0,120,0Z" />
+    <g class="tech" stroke-width="6" stroke-linecap="round">
+      <path d="M80,56 v96"/>
+      <path d="M120,36 v116"/>
+      <path d="M160,70 v82"/>
+      <circle cx="80" cy="56" r="7" fill="#ffffff"/>
+      <circle cx="120" cy="36" r="7" fill="#ffffff"/>
+      <circle cx="160" cy="70" r="7" fill="#ffffff"/>
+      <path d="M54,146 H186" opacity="0.25"/>
+    </g>
+    <g class="accent" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M60,142 L98,118 L136,128 L174,104"/>
+      <path d="M174,104 l-9,6 12,2 2,12 16,-24 z" />
+    </g>
+    <rect class="trunk" x="110" y="208" width="20" height="30" rx="6" ry="6"/>
+  </g>
+  <g transform="translate(330,90)">
+    <text class="text" x="0" y="64" font-family="Inter, Poppins, Segoe UI, Roboto, Arial, sans-serif" font-size="96" font-weight="800" letter-spacing="0.5">
+      Agro<tspan fill="#16A34A">Predict</tspan>
+    </text>
+    <text class="text" x="4" y="110" font-family="Inter, Segoe UI, Roboto, Arial, sans-serif" font-size="28" opacity="0.75">
+      Predicción agrícola basada en datos
+    </text>
+  </g>
+</svg>

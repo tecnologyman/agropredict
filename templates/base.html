@@ -11,7 +11,10 @@
 <div class="app">
   <!-- Sidebar -->
   <aside class="sidebar">
-    <a class="brand" href="/"><span class="logo"></span> AgroPredict</a>
+    <div class="brand">
+    <img src="{% static 'img/AgroPredict_logo_primary.svg' %}" alt="AgroPredict logo" class="logo-img">
+    <span>AgroPredict</span>
+  </div>
     <nav class="nav">
       <a class="nav-item {% if request.path == '/' %}active{% endif %}" href="/">Dashboard</a>
       <a class="nav-item {% if request.path == '/prediccion/' %}active{% endif %}" href="/prediccion/">Predicción</a>

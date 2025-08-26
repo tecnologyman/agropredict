@@ -12,13 +12,18 @@ DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() == 'true'
 ALLOWED_HOSTS = [
     '127.0.0.1', 'localhost',
     '.onrender.com', '.railway.app', '.fly.dev',
-    os.getenv('DJANGO_ALLOWED_HOST', ''),  # por si quieres pasar uno puntual
+    "agropredict.tecnologyman.cl",
+    "web-production-6662.up.railway.app",
+    os.environ.get("RAILWAY_STATIC_URL", ""),
 ]
 ALLOWED_HOSTS = [h for h in ALLOWED_HOSTS if h]  # limpia vacíos
 
 # Si tu plataforma exige CSRF explícito (Render, Fly, etc.)
 _csrf_env = os.getenv('DJANGO_CSRF_TRUSTED_ORIGINS', '')
-CSRF_TRUSTED_ORIGINS = [o.strip() for o in _csrf_env.split(',') if o.strip()]
+CSRF_TRUSTED_ORIGINS = [
+    "https://agropredict.tecnologyman.cl",
+    "https://web-production-6662.up.railway.app",
+]
 # Ejemplo de valor: https://tu-servicio.onrender.com,https://algo.railway.app
 
 # --- Apps ---
