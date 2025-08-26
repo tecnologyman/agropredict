@@ -21,8 +21,23 @@ a:hover{text-decoration:underline}
 .app{display:grid;grid-template-columns:280px 1fr;grid-template-rows:72px 1fr;min-height:100vh}
 
 /* Sidebar */
-.sidebar{grid-row:1 / span 2;background:linear-gradient(180deg,#1F155E, var(--accent-2));color:#fff;padding:20px 18px;position:relative}
-.brand{display:block;color:#fff;font-weight:800;font-size:20px;margin-bottom:10px}
+.sidebar{
+  grid-row:1 / span 2;
+  background:linear-gradient(180deg,#1F155E, var(--accent-2));
+  color:#fff;
+  padding:20px 18px;
+  position:relative;
+  overflow:hidden; /* evita desbordes */
+}
+
+/* NUEVO: marca con emoji (no SVG) */
+.brand{
+  display:flex; align-items:center; gap:10px;
+  color:#fff; font-weight:800; font-size:20px; margin-bottom:10px;
+}
+.logo-emoji{ font-size:22px; line-height:1; }
+.brand-name{ line-height:1; }
+
 .nav{margin-top:10px;display:flex;flex-direction:column;gap:8px}
 .nav-item{padding:12px 14px;border-radius:12px;color:#fff}
 .nav-item.active,.nav-item:hover{background:rgba(255,255,255,.18)}
@@ -72,28 +87,13 @@ a:hover{text-decoration:underline}
 .big{font-size:20px;font-weight:900}
 .alert{background:#FEF2F2;border:1.5px solid #FECACA;color:#991B1B;padding:10px;border-radius:10px;margin-bottom:10px}
 
-@media (max-width:900px){
-  .app{grid-template-columns:1fr}
-  .sidebar{display:none}
-  .form .form-grid{grid-template-columns:1fr}
-  .kpis{grid-template-columns:1fr 1fr}
-}
-/* --- Sidebar / Brand --- */
-.sidebar{ overflow:hidden; }
-.brand{
-  display:flex; align-items:center; gap:10px;
-  color:#fff; font-weight:800; font-size:20px; margin-bottom:10px;
-}
-.logo-img{ height:28px; width:auto; display:inline-block; flex-shrink:0; }
-.brand-name{ line-height:1; }
-
-/* --- Auth page (login) --- */
+/* NUEVO: login sin sidebar/topbar y centrado */
 .page-auth .sidebar,
 .page-auth .topbar { display:none; }
 
 .page-auth .app{
-  grid-template-columns: 1fr;         /* sin sidebar */
-  grid-template-rows: 1fr;            /* sin topbar */
+  grid-template-columns: 1fr;   /* sin sidebar */
+  grid-template-rows: 1fr;      /* sin topbar */
   min-height: 100vh;
 }
 
@@ -112,3 +112,10 @@ a:hover{text-decoration:underline}
 .form-grid.one-col{ grid-template-columns:1fr; }
 .btn.full{ width:100%; }
 .field-error{ color:#B91C1C; font-size:13px; margin-top:4px; }
+
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .form .form-grid{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+}
