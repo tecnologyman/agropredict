@@ -1,46 +1,45 @@
-{% extends 'base.html' %}
-{% block title %}Ingresar · AgroPredict{% endblock %}
+{% extends "base.html" %}
 {% block body_class %}page-auth{% endblock %}
-{% block top_title %}Ingresar{% endblock %}
+{% block title %}Ingresar · AgroPredict{% endblock %}
+{% block top_title %}{% endblock %}
 
 {% block content %}
-<section class="card auth-card">
-  <header class="auth-head">
-    <div class="auth-title">Ingreso</div>
-    <div class="auth-sub">Accede a tu panel de predicciones</div>
-  </header>
+<div class="auth-hero">
+  <div class="auth-hero-inner">
+    <div class="auth-brand">AgroPredict</div>
+    <div class="auth-tag">Demo offline Sprint 1</div>
+  </div>
+</div>
 
-  {% if form.errors %}
-    <div class="alert">Usuario o contraseña inválidos.</div>
-  {% endif %}
+<div class="auth-shell">
+  <section class="auth-card card">
+    <header class="auth-head">
+      <div class="auth-title">Ingreso</div>
+      <div class="auth-sub">Accede a tu panel de predicciones</div>
+    </header>
 
-  <form method="post" class="form">
-    {% csrf_token %}
-    <div class="form-grid one-col">
-      <div class="form-control">
-        <label>Usuario</label>
-        {{ form.username }}
-        {% if form.username.errors %}
-          <div class="field-error">{{ form.username.errors.0 }}</div>
-        {% endif %}
+    {% if form.errors %}
+      <div class="alert">Usuario o contraseña inválidos.</div>
+    {% endif %}
+
+    <form method="post" class="form">
+      {% csrf_token %}
+      <div class="form-grid one-col">
+        <div class="form-control">
+          <label>Usuario</label>
+          {{ form.username }}
+        </div>
+        <div class="form-control">
+          <label>Contraseña</label>
+          {{ form.password }}
+        </div>
       </div>
-
-      <div class="form-control">
-        <label>Contraseña</label>
-        {{ form.password }}
-        {% if form.password.errors %}
-          <div class="field-error">{{ form.password.errors.0 }}</div>
-        {% endif %}
+      <div class="actions">
+        <button type="submit" class="btn btn-block">Entrar</button>
       </div>
-    </div>
+    </form>
 
-    <div class="actions">
-      <button type="submit" class="btn btn-block">Entrar</button>
-    </div>
-  </form>
-
-  <footer class="auth-foot muted">
-    Hecho por Treering · Demo offline Sprint 1
-  </footer>
-</section>
+    <footer class="auth-foot muted">v0.1 · Creado por Treering</footer>
+  </section>
+</div>
 {% endblock %}

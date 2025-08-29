@@ -1,69 +1,101 @@
 {% extends 'base.html' %}
 {% block title %}Dashboard · AgroPredict{% endblock %}
 {% block top_title %}Dashboard ejecutivo{% endblock %}
+
 {% block content %}
 
+<!-- KPIs -->
 <section class="kpis">
-  <div class="card">
+  <div class="card small">
     <div class="kpi-head">
       <h4>Riesgo de heladas (hoy)</h4><span class="tag">Estado</span>
     </div>
-    <div class="kpi-value">{{ kpi_riesgo_heladas }}</div>
+    <div class="kpi-value">{{ kpi_riesgo }}</div>
   </div>
-  <div class="card">
+
+  <div class="card small">
     <div class="kpi-head">
       <h4>ET0 estimada (hoy)</h4><span class="tag">Demanda agua</span>
     </div>
-    <div class="kpi-value">{{ kpi_eto }} mm</div>
+    <div class="kpi-value">{{ kpi_et0|floatformat:1 }} mm</div>
   </div>
-  <div class="card">
+
+  <div class="card small">
     <div class="kpi-head">
       <h4>Ventana de riego (48h)</h4><span class="tag">Decisión</span>
     </div>
     <div class="kpi-value">{{ kpi_ventana_riego }}</div>
   </div>
-  <div class="card">
+
+  <div class="card small">
     <div class="kpi-head">
       <h4>Precipitación (7 días)</h4><span class="tag">Acumulado</span>
     </div>
-    <div class="kpi-value">{{ kpi_pp7d }} mm</div>
+    <div class="kpi-value">{{ kpi_precip_7d }} mm</div>
   </div>
 </section>
 
+<!-- Gráfico general -->
 <section class="panel">
-  <h3>Producción esperada (últimas 5 predicciones)</h3>
-  <svg class="chart" viewBox="0 0 800 240" preserveAspectRatio="none">
-    <line x1="50" y1="20" x2="50" y2="220" stroke="#E4E8F0" stroke-width="2"/>
-    <line x1="50" y1="220" x2="780" y2="220" stroke="#E4E8F0" stroke-width="2"/>
-    {% for x in grid_x %}
-      <line x1="{{ x }}" y1="20" x2="{{ x }}" y2="220" stroke="#F0F3F9" stroke-width="1"/>
+  <h3 class="h3">Producción esperada (últimas 5 predicciones)</h3>
+
+  <svg class="chart" viewBox="0 0 1100 260" aria-label="Serie últimas predicciones">
+    <!-- Ejes -->
+    <line x1="50" y1="20" x2="50" y2="230" stroke="#E4E8F0" stroke-width="2"/>
+    <line x1="50" y1="230" x2="1080" y2="230" stroke="#E4E8F0" stroke-width="2"/>
+
+    <!-- Cuadrícula vertical -->
+    {% for gx in grid_x_positions %}
+      <line x1="{{ gx }}" y1="30" x2="{{ gx }}" y2="230" stroke="#F0F3F9" stroke-width="1"/>
     {% endfor %}
-    <polyline fill="none" stroke="var(--accent)" stroke-width="3" points="{{ dash_points }}"/>
+
+    {% if chart_has_data %}
+      <!-- Línea -->
+      <polyline fill="none" stroke="var(--accent)" stroke-width="4" points="{{ chart_points }}"/>
+    {% else %}
+      <text x="550" y="130" text-anchor="middle" fill="#9AA0AF" font-size="14">Sin datos suficientes para graficar</text>
+    {% endif %}
   </svg>
-  {% if ultimas %}
-  <div class="legend">
-    {% for p in ultimas %}
-      <span class="legend-item">#{{ p.id }} • {{ p.get_arbol_frutal_display }} • {{ p.produccion_esperada_t }} t</span>
+
+  {% if chart_has_data %}
+  <div class="muted" style="margin-top:6px;font-size:13px;">
+    {% for lbl in chart_labels %}
+      {% if not forloop.first %} · {% endif %}{{ lbl }}
     {% endfor %}
   </div>
-  {% else %}
-  <p class="muted">Aún no hay predicciones. Crea la primera desde <a href="/prediccion/">Predicción</a>.</p>
   {% endif %}
 </section>
 
-<section class="grid-list">
-  {% for item in ultimas %}
-    <article class="row-card">
+<!-- Lista de predicciones -->
+{% for item in predicciones %}
+  <article class="card">
+    <div class="row">
       <div>
-        <div class="h3">Predicción #{{ item.id }}</div>
-        <div class="muted">{{ item.get_arbol_frutal_display }} · {{ item.region }} · {{ item.creado|date:"d/m/Y H:i" }}</div>
+        <h3 class="h3">Predicción #{{ item.id }} · {{ item.get_especie_display }}</h3>
+        <div class="muted">{{ item.comuna }}, {{ item.region }} · {{ item.creado|date:"d/m/Y H:i" }}</div>
       </div>
-      <div class="right">
-        <div class="pill">Prod.: <b>{{ item.produccion_esperada_t }}</b> t</div>
-        <a class="btn-link" href="{% url 'prediccion_resultado' item.id %}">Ver detalle</a>
+      <div><a class="btn btn-link" href="{% url 'prediccion_resultado' item.id %}">Ver detalle</a></div>
+    </div>
+
+    <div class="kpis" style="grid-template-columns:repeat(3,1fr);margin-top:8px;">
+      <div>
+        <span class="kpi-label">Superficie</span>
+        <span class="kpi-value">{{ item.superficie_ha|floatformat:2 }} ha</span>
       </div>
-    </article>
-  {% endfor %}
-</section>
+      <div>
+        <span class="kpi-label">Producción (t)</span>
+        <span class="kpi-value">{{ item.produccion_esperada_t|floatformat:2 }}</span>
+      </div>
+      <div>
+        <span class="kpi-label">t/ha</span>
+        <span class="kpi-value">
+          {% if item.t_por_ha is not None %}{{ item.t_por_ha|floatformat:2 }}{% else %}—{% endif %}
+        </span>
+      </div>
+    </div>
+  </article>
+{% empty %}
+  <p class="muted">Aún no tienes predicciones.</p>
+{% endfor %}
 
 {% endblock %}

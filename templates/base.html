@@ -11,15 +11,12 @@
 <div class="app">
   <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="brand">
-      <span class="logo-emoji" aria-hidden="true">🌳</span>
-      <span class="brand-name">AgroPredict</span>
-    </div>
+    <a class="brand" href="/"><span class="logo-emoji">🌳</span> <span class="brand-name">AgroPredict</span></a>
     <nav class="nav">
       <a class="nav-item {% if request.path == '/' %}active{% endif %}" href="/">Dashboard</a>
-      <a class="nav-item {% if request.path == '/prediccion/' %}active{% endif %}" href="/prediccion/">Predicción</a>
+      <a class="nav-item {% if request.path|slice:':12' == '/prediccion' %}active{% endif %}" href="/prediccion/">Predicción</a>
     </nav>
-    <div class="sb-foot">Hecho por Treering · Demo offline Sprint 1</div>
+    <div class="sb-foot">v0.1 • Demo offline Sprint 1<br>Hecho por <b>Treering</b></div>
   </aside>
 
   <!-- Topbar -->
@@ -35,9 +32,12 @@
     </div>
   </header>
 
+  <!-- Main -->
   <main class="main">
     {% block content %}{% endblock %}
   </main>
 </div>
+
+{% block extra_js %}{% endblock %}
 </body>
 </html>

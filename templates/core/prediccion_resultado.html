@@ -1,116 +1,117 @@
 {% extends 'base.html' %}
 {% block title %}Resultado · AgroPredict{% endblock %}
-{% block top_title %}Resultado de predicción #{{ p.id }}{% endblock %}
+{% block top_title %}Predicción #{{ p.id }} · {{ p.get_especie_display }}{% endblock %}
+
 {% block content %}
-
-<section class="panels">
+<section class="grid-2">
   <div class="panel">
-    <h3>Resumen</h3>
-    <div class="grid-2">
-      <div class="card small">
-        <div class="muted">Frutal</div>
-        <div class="big">{{ p.get_arbol_frutal_display }}</div>
-      </div>
-      <div class="card small">
-        <div class="muted">Región</div>
-        <div class="big">{{ p.region }}</div>
-      </div>
-      <div class="card small">
-        <div class="muted">Superficie</div>
-        <div class="big">{{ p.superficie_ha }} ha</div>
-      </div>
-      <div class="card small">
-        <div class="muted">Temp. Prom.</div>
-        <div class="big">{{ p.temp_prom_anual_c }} °C</div>
-      </div>
-      <div class="card small">
-        <div class="muted">Precipitación</div>
-        <div class="big">{{ p.precip_anual_mm }} mm</div>
-      </div>
-      <div class="card small">
-        <div class="muted">Radiación</div>
-        <div class="big">{{ p.radiacion_anual_wm2 }} W/m²</div>
-      </div>
-      <div class="card small accent">
-        <div class="muted">Producción esperada</div>
-        <div class="big">{{ p.produccion_esperada_t }} t</div>
-      </div>
+    <h3 class="h3">Resumen</h3>
+    <div class="grid-list">
+      <div class="row-card"><span class="muted">Ubicación</span><b>{{ p.comuna }}, {{ p.region }}</b></div>
+      <div class="row-card"><span class="muted">Superficie</span><b>{{ p.superficie_ha|floatformat:2 }} ha</b></div>
+      <div class="row-card"><span class="muted">Producción esperada</span><b>{{ p.produccion_esperada_t|floatformat:2 }} t</b></div>
+      <div class="row-card"><span class="muted">t/ha</span><b>{{ prod_por_ha|floatformat:2 }}</b></div>
+      <div class="row-card"><span class="muted">Riego</span><b>{{ p.get_sistema_riego_display }}</b></div>
+      <div class="row-card"><span class="muted">Densidad</span><b>{{ p.densidad_arboles_ha }} ár/ha</b></div>
+      <div class="row-card"><span class="muted">Edad</span><b>{{ p.edad_arbol_anios }} años</b></div>
     </div>
-  </div>
 
-  <div class="panel">
-    <h3>Proyección (5 periodos)</h3>
-    <svg class="chart" viewBox="0 0 720 240" preserveAspectRatio="none">
-      <defs>
-        <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.25"/>
-          <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.05"/>
-        </linearGradient>
-      </defs>
-      <line x1="40" y1="20" x2="40" y2="200" stroke="#E4E8F0" stroke-width="2"/>
-      <line x1="40" y1="200" x2="700" y2="200" stroke="#E4E8F0" stroke-width="2"/>
-      {% for gx in grid_x %}
-        <line x1="{{ gx }}" y1="20" x2="{{ gx }}" y2="200" stroke="#F0F3F9" stroke-width="1"/>
-      {% endfor %}
-      <polyline fill="none" stroke="var(--accent)" stroke-width="4" points="{{ points }}"/>
-      <polygon fill="url(#g1)" points="{{ points }} 700,200 40,200"/>
+    <h3 class="h3" style="margin-top:16px;">Proyección semestral</h3>
+    <svg class="chart" viewBox="0 0 700 200">
+      <!-- ejes -->
+      <line x1="40" y1="10" x2="40" y2="180" stroke="#E4E8F0" stroke-width="2"/>
+      <line x1="40" y1="180" x2="680" y2="180" stroke="#E4E8F0" stroke-width="2"/>
+
+      {% if points %}
+        <polyline fill="none" stroke="var(--accent)" stroke-width="4" points="{{ points }}"/>
+      {% else %}
+        <text x="360" y="100" text-anchor="middle" fill="#9AA0AF" font-size="14">Sin datos</text>
+      {% endif %}
     </svg>
-
-    <table class="table">
-      <thead><tr><th>#</th><th>Periodo</th><th>Producción (t)</th></tr></thead>
-      <tbody>
-        {% for v in proy %}
-          <tr><td>{{ forloop.counter }}</td><td>T+{{ forloop.counter|add:"-1" }}</td><td>{{ v }}</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
   </div>
 
   <div class="panel">
-    <h3>Editar parámetros</h3>
-    <form method="post" class="form">{% csrf_token %}
-      <div class="form-grid" style="grid-template-columns:1fr;">
+    <h3 class="h3">Editar y recalcular</h3>
+    <form method="post" class="form form-surface" id="edit-form" data-comunas-endpoint="/api/comunas/">
+      {% csrf_token %}
+      <div class="form-grid">
         <div class="form-control">
-          <label>Árbol frutal</label>
-          {{ form.arbol_frutal }}
-          <div class="actions" style="margin-top:6px; gap:6px;">
-            <button type="button" class="btn-outline" onclick="document.getElementById('id_arbol_frutal').value='manzana'; this.form.submit()">Manzana</button>
-            <button type="button" class="btn-outline" onclick="document.getElementById('id_arbol_frutal').value='cereza'; this.form.submit()">Cereza</button>
-          </div>
+          <label>Especie</label>{{ form_edit.especie }}
         </div>
         <div class="form-control">
-          <label>Región</label>
-          {{ form.region }}
+          <label>Región</label>{{ form_edit.region }}
         </div>
         <div class="form-control">
-          <label>Superficie Plantada (ha)</label>
-          {{ form.superficie_ha }}
+          <label>Comuna</label>{{ form_edit.comuna }}
         </div>
         <div class="form-control">
-          <label>Temp. Prom. Anual (°C)</label>
-          {{ form.temp_prom_anual_c }}
+          <label>Superficie (ha)</label>{{ form_edit.superficie_ha }}
         </div>
         <div class="form-control">
-          <label>Precip. Anual (mm)</label>
-          {{ form.precip_anual_mm }}
+          <label>Edad (años)</label>{{ form_edit.edad_arbol_anios }}
         </div>
         <div class="form-control">
-          <label>Radiación Anual (W/m²)</label>
-          {{ form.radiacion_anual_wm2 }}
+          <label>Densidad (ár/ha)</label>{{ form_edit.densidad_arboles_ha }}
+        </div>
+        <div class="form-control">
+          <label>Sistema riego</label>{{ form_edit.sistema_riego }}
         </div>
       </div>
       <div class="actions">
-        <button class="btn" type="submit">Actualizar y recalcular</button>
-        <a class="btn-outline" href="/">Volver</a>
+        <button class="btn" type="submit">Guardar y recalcular</button>
       </div>
     </form>
-    {% if recomendaciones %}
-      <h4 style="margin-top:12px">Recomendaciones</h4>
-      <ul class="bullets">
-        {% for r in recomendaciones %}<li>{{ r }}</li>{% endfor %}
-      </ul>
-    {% endif %}
   </div>
 </section>
+{% endblock %}
 
+{% block extra_js %}
+<script>
+(function(){
+  const formEl = document.getElementById('edit-form');
+  if(!formEl) return;
+  const regionEl = document.getElementById('id_region');
+  const comunaEl = document.getElementById('id_comuna');
+  const endpointBase = formEl.dataset.comunasEndpoint || "/api/comunas/";
+
+  const slugify = (s) => {
+    return s
+      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/[’']/g, '')
+      .toLowerCase()
+      .split(/\s+/).join('-');
+  };
+
+  async function loadComunas(regionName, currentComuna){
+    if(!regionName) return;
+    const url = endpointBase + slugify(regionName) + "/";
+    try{
+      const resp = await fetch(url, {credentials: "same-origin"});
+      if(!resp.ok) return;
+      const data = await resp.json();
+      const comunas = data.comunas || [];
+      const prev = currentComuna || comunaEl.value;
+      comunaEl.innerHTML = "";
+      const opt0 = document.createElement('option');
+      opt0.value = ""; opt0.textContent = "— Selecciona comuna —";
+      comunaEl.appendChild(opt0);
+      comunas.forEach(c=>{
+        const o = document.createElement('option');
+        o.value = c; o.textContent = c;
+        if(c === prev) o.selected = true;
+        comunaEl.appendChild(o);
+      });
+    }catch(e){}
+  }
+
+  regionEl && regionEl.addEventListener('change', (e)=>{
+    loadComunas(e.target.value);
+  });
+
+  // Primer render
+  if(regionEl && regionEl.value){
+    loadComunas(regionEl.value, comunaEl.value);
+  }
+})();
+</script>
 {% endblock %}
