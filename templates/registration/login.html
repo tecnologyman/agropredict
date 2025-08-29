@@ -1,45 +1,48 @@
 {% extends "base.html" %}
-{% block body_class %}page-auth{% endblock %}
 {% block title %}Ingresar · AgroPredict{% endblock %}
-{% block top_title %}{% endblock %}
 
+{# Ocultamos la sidebar y la topbar usando una clase en <body> #}
 {% block content %}
-<div class="auth-hero">
-  <div class="auth-hero-inner">
-    <div class="auth-brand">AgroPredict</div>
-    <div class="auth-tag">Demo offline Sprint 1</div>
+<div class="auth-wrap">
+  <!-- Barra superior con gradiente / marca -->
+  <div class="auth-hero">
+    <div class="auth-hero-inner">
+      <div class="auth-brand">🌳 AgroPredict</div>
+      <div class="auth-tag">Demo offline Sprint 1</div>
+    </div>
   </div>
-</div>
 
-<div class="auth-shell">
-  <section class="auth-card card">
-    <header class="auth-head">
-      <div class="auth-title">Ingreso</div>
-      <div class="auth-sub">Accede a tu panel de predicciones</div>
-    </header>
+  <!-- Shell que centra la tarjeta -->
+  <div class="auth-shell">
+    <section class="card auth-card">
+      <h1 class="h2" style="text-align:center;margin-bottom:8px;">Ingreso</h1>
+      <p class="muted" style="text-align:center;margin-top:0;">Accede a tu panel de predicciones</p>
 
-    {% if form.errors %}
-      <div class="alert">Usuario o contraseña inválidos.</div>
-    {% endif %}
+      {% if form.errors %}
+        <div class="alert">Usuario o contraseña inválidos.</div>
+      {% endif %}
 
-    <form method="post" class="form">
-      {% csrf_token %}
-      <div class="form-grid one-col">
-        <div class="form-control">
-          <label>Usuario</label>
-          {{ form.username }}
+      <form method="post" class="form">
+        {% csrf_token %}
+        <div class="form-grid one-col">
+          <div class="form-control">
+            <label>Usuario</label>
+            {{ form.username }}
+            {% if form.username.errors %}<div class="field-error">{{ form.username.errors.0 }}</div>{% endif %}
+          </div>
+          <div class="form-control">
+            <label>Contraseña</label>
+            {{ form.password }}
+            {% if form.password.errors %}<div class="field-error">{{ form.password.errors.0 }}</div>{% endif %}
+          </div>
         </div>
-        <div class="form-control">
-          <label>Contraseña</label>
-          {{ form.password }}
+        <div class="actions">
+          <button type="submit" class="btn btn-block">Entrar</button>
         </div>
-      </div>
-      <div class="actions">
-        <button type="submit" class="btn btn-block">Entrar</button>
-      </div>
-    </form>
+      </form>
 
-    <footer class="auth-foot muted">v0.1 · Creado por Treering</footer>
-  </section>
+      <footer class="auth-foot muted">v0.1 · Creado por Treering</footer>
+    </section>
+  </div>
 </div>
 {% endblock %}
