@@ -1,7 +1,13 @@
 from django.contrib import admin
+<<<<<<< HEAD
 from django.urls import path, include
 from core import views as core_views
 from django.contrib.auth import views as auth_views
+=======
+from django.urls import path
+from django.contrib.auth import views as auth_views
+from core import views as core_views
+>>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -10,5 +16,8 @@ urlpatterns = [
     path('', core_views.dashboard, name='dashboard'),
     path('prediccion/', core_views.prediccion_form, name='prediccion_form'),
     path('prediccion/<int:pk>/', core_views.prediccion_resultado, name='prediccion_resultado'),
+<<<<<<< HEAD
     path("api/comunas/<slug:region_slug_value>/", core_views.comunas_api, name="api_comunas"),
+=======
+>>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
 ]

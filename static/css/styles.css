@@ -1,27 +1,41 @@
+<<<<<<< HEAD
 /* =============== AgroPredict · Tema unificado =============== */
+=======
+/* Styled theme for AgroPredict */
+>>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
 :root{
   --bg:#F6F7FC;
   --ink:#1A1837;
   --muted:#73788C;
   --white:#fff;
   --divider:#E4E8F0;
+<<<<<<< HEAD
   --accent:#7C3AED;    /* morado */
   --accent-2:#FF3EA5;  /* magenta */
+=======
+  --accent:#7C3AED;      /* morado */
+  --accent-2:#FF3EA5;    /* magenta */
+>>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
   --green:#16A34A;
   --radius:18px;
   --shadow:0 6px 14px rgba(26,24,55,.06);
   --font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
+<<<<<<< HEAD
 
   /* Altura del hero en login (para centrado vertical) */
   --auth-hero-h: 120px;
 }
 
+=======
+}
+>>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
 *{box-sizing:border-box}
 html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:var(--font)}
 a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
 
+<<<<<<< HEAD
 /* ===== Layout base (sidebar + topbar) ===== */
 .app{
   display:grid;
@@ -29,6 +43,9 @@ a:hover{text-decoration:underline}
   grid-template-rows:72px 1fr;
   min-height:100vh;
 }
+=======
+.app{display:grid;grid-template-columns:280px 1fr;grid-template-rows:72px 1fr;min-height:100vh}
+>>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
 
 /* Sidebar */
 .sidebar{
@@ -37,6 +54,7 @@ a:hover{text-decoration:underline}
   color:#fff;
   padding:20px 18px;
   position:relative;
+<<<<<<< HEAD
   overflow:hidden;
 }
 .brand{
@@ -45,12 +63,26 @@ a:hover{text-decoration:underline}
 }
 .logo-emoji{font-size:22px;line-height:1}
 .brand-name{line-height:1}
+=======
+  overflow:hidden; /* evita desbordes */
+}
+
+/* NUEVO: marca con emoji (no SVG) */
+.brand{
+  display:flex; align-items:center; gap:10px;
+  color:#fff; font-weight:800; font-size:20px; margin-bottom:10px;
+}
+.logo-emoji{ font-size:22px; line-height:1; }
+.brand-name{ line-height:1; }
+
+>>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
 .nav{margin-top:10px;display:flex;flex-direction:column;gap:8px}
 .nav-item{padding:12px 14px;border-radius:12px;color:#fff}
 .nav-item.active,.nav-item:hover{background:rgba(255,255,255,.18)}
 .sb-foot{position:absolute;left:18px;right:18px;bottom:14px;font-size:12px;opacity:.9}
 
 /* Topbar */
+<<<<<<< HEAD
 .topbar{
   grid-column:2;
   background:#fff;
@@ -58,6 +90,9 @@ a:hover{text-decoration:underline}
   display:flex;align-items:center;gap:12px;
   padding:0 20px;
 }
+=======
+.topbar{grid-column:2;background:#fff;border-bottom:2px solid var(--divider);display:flex;align-items:center;gap:12px;padding:0 20px}
+>>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
 .title{font-weight:800;font-size:18px;margin-right:auto}
 .top-right{margin-left:auto;display:flex;gap:10px;align-items:center}
 .chip{background:#F2F3FA;border:1px solid var(--divider);border-radius:999px;padding:6px 10px;color:#4B4F63}
@@ -66,20 +101,29 @@ a:hover{text-decoration:underline}
 .btn-outline{background:#fff;color:var(--accent);border:2px solid var(--accent);border-radius:12px;padding:8px 12px;font-weight:800;cursor:pointer}
 .btn-link{background:transparent;color:var(--accent);padding:0;border:none;font-weight:700;cursor:pointer}
 
+<<<<<<< HEAD
 /* Main */
 .main{grid-column:2;padding:18px;display:grid;gap:16px}
 
 /* Tarjetas, paneles, tipografías */
+=======
+/* Main content */
+.main{grid-column:2;padding:18px;display:grid;gap:16px}
+
+>>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
 .card{background:#fff;border:1.5px solid var(--divider);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px}
 .card.small{padding:12px}
 .card.small.accent{border-color:#DAD3FF;background:#F8F7FF}
 .panel{background:#fff;border:1.5px solid var(--divider);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+<<<<<<< HEAD
 .h1{font-size:22px;margin:0 0 6px}
 .h2{font-size:18px;margin:0 0 8px;font-weight:800}
 .h3{font-size:16px;margin:0 0 8px}
 .muted{color:var(--muted)}
 
 /* KPIs y grids */
+=======
+>>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .kpi-head{display:flex;align-items:center;gap:8px}
 .kpi-head h4{margin:0;font-size:14px}
@@ -89,6 +133,7 @@ a:hover{text-decoration:underline}
 .grid-2{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .grid-list{display:grid;gap:8px}
 .row-card{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--divider);border-radius:14px;background:#fff;padding:10px 12px}
+<<<<<<< HEAD
 
 /* Formularios */
 .form .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -113,10 +158,27 @@ input:focus, select:focus, textarea:focus{
 .table{width:100%;border-collapse:collapse;margin-top:10px}
 .table th,.table td{padding:10px 8px;border-bottom:1px solid #EBEEF5;text-align:left}
 .table th{color:var(--muted);font-weight:800}
+=======
+.h1{font-size:22px;margin:0 0 6px}
+.h3{font-size:16px;margin:0 0 8px}
+.muted{color:var(--muted)}
+.pill{background:#F6F7FC;border:1px solid var(--divider);border-radius:999px;padding:6px 10px}
+
+.form .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-control label{display:block;margin:0 0 6px;color:#4B4F63;font-weight:700}
+.input, input, select{border:1.5px solid var(--divider);border-radius:10px;padding:10px;background:#fff;font:var(--font)}
+.actions{margin-top:10px;display:flex;gap:8px;align-items:center}
+
+.table{width:100%;border-collapse:collapse;margin-top:10px}
+.table th,.table td{padding:10px 8px;border-bottom:1px solid #EBEEF5;text-align:left}
+.table th{color:var(--muted);font-weight:800}
+
+>>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
 .chart{width:100%;height:240px;border:1px dashed #EEF1F7;border-radius:12px}
 .big{font-size:20px;font-weight:900}
 .alert{background:#FEF2F2;border:1.5px solid #FECACA;color:#991B1B;padding:10px;border-radius:10px;margin-bottom:10px}
 
+<<<<<<< HEAD
 /* ===== Login refinado (pantalla dedicada) ===== */
 /* Ocultamos sidebar+topbar SOLO en login */
 .page-auth .sidebar,
@@ -306,3 +368,83 @@ input:focus, select:focus, textarea:focus{
 
 /* Espaciado “card a card” en el grid */
 .form-col > .form-control.colorized + .form-control.colorized{ margin-top: 10px; }
+=======
+/* ===== Login refinado ===== */
+.page-auth .sidebar,
+.page-auth .topbar { display: none; }
+
+.page-auth .app{
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  min-height: 100vh;
+}
+
+.page-auth .main{
+  display: grid;
+  place-items: center;
+  padding: 32px;
+}
+
+.auth-card{
+  width: 100%;
+  max-width: 440px;
+  padding: 26px 22px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* Encabezado del login */
+.auth-head{
+  text-align: center;
+  margin-bottom: 14px;
+}
+.auth-title{
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.auth-sub{
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Form en una columna, campos full */
+.form-grid.one-col{
+  grid-template-columns: 1fr;
+}
+.form-control label{
+  font-weight: 700;
+  color: #4B4F63;
+  margin: 0 0 6px;
+}
+.form-control input{
+  width: 100%;
+  border: 1.5px solid var(--divider);
+  border-radius: 12px;
+  padding: 12px 12px;
+  background: #fff;
+  outline: none;
+  transition: box-shadow .15s ease, border-color .15s ease;
+}
+.form-control input:focus{
+  border-color: #C7CCF3;
+  box-shadow: 0 0 0 4px rgba(124,58,237,.10); /* halo suave morado */
+}
+
+/* Botón ancho */
+.btn.btn-block{ width: 100%; padding: 12px 14px; }
+
+/* Separadores y pie */
+.actions{ margin-top: 12px; }
+.auth-foot{
+  margin-top: 14px;
+  text-align: center;
+  font-size: 12px;
+}
+
+/* Ajuste responsive pequeño */
+@media (max-width: 420px){
+  .auth-card{ padding: 22px 18px; }
+}
+>>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
