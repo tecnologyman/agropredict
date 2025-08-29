@@ -9,6 +9,7 @@ __pycache__/
 .venv/
 venv/
 ENV/
+env/
 
 # OS / IDE
 .DS_Store
@@ -20,6 +21,11 @@ Thumbs.db
 db.sqlite3
 staticfiles/
 media/
+
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
 
 # Migrations cache (opcional mantenerlas, ¡no borres tus migraciones!)
 # core/migrations/__pycache__/
