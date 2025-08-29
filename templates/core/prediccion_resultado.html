@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}Predicción #{{ p.id }} · AgroPredict{% endblock %}
+{% block top_title %}Predicción #{{ p.id }}{% endblock %}
+{% block content %}
+
+<div class="grid-2" style="grid-template-columns: 1.1fr 1fr; gap:16px;">
+  <section class="panel">
+    <h3 class="h3">Resumen</h3>
+    <div class="grid-list">
+      <div class="row-card"><span>Especie</span><b>{{ p.get_especie_display }}</b></div>
+      <div class="row-card"><span>Ubicación</span><b>{{ p.comuna }}, {{ p.region }}</b></div>
+      <div class="row-card"><span>Superficie</span><b>{{ p.superficie_ha }} ha</b></div>
+      <div class="row-card"><span>Edad del árbol</span><b>{{ p.edad_arbol_anios }} años</b></div>
+      <div class="row-card"><span>Densidad</span><b>{{ p.densidad_arboles_ha }} árboles/ha</b></div>
+      <div class="row-card"><span>Riego</span><b>{{ p.get_sistema_riego_display }}</b></div>
+    </div>
+
+    <div class="row-card" style="margin-top:10px;">
+      <span>Producción esperada (t)</span>
+      <b class="big">{{ p.produccion_esperada_t }}</b>
+    </div>
+    <div class="row-card">
+      <span>Producción por ha (t/ha)</span>
+      <b>{{ prod_por_ha }}</b>
+    </div>
+
+    <h3 class="h3" style="margin-top:14px;">Proyección semestral (T+)</h3>
+    <svg class="chart" viewBox="0 0 700 200">
+      <line x1="40" y1="10" x2="40" y2="180" stroke="#E4E8F0" stroke-width="2"/>
+      <line x1="40" y1="180" x2="680" y2="180" stroke="#E4E8F0" stroke-width="2"/>
+      <polyline fill="none" stroke="var(--green)" stroke-width="4" points="{{ points }}"/>
+    </svg>
+    <table class="table">
+      <thead><tr><th>Periodo</th><th>Etiqueta</th><th>t</th></tr></thead>
+      <tbody>
+        {% for v in proy_sem %}
+          <tr><td>{{ forloop.counter }}</td><td>T+{{ forloop.counter }}</td><td>{{ v }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h3 class="h3" style="margin-top:14px;">Proyección anual (A+)</h3>
+    <table class="table">
+      <thead><tr><th>Año</th><th>Etiqueta</th><th>t</th></tr></thead>
+      <tbody>
+        {% for v in proy_anual %}
+          <tr><td>{{ forloop.counter }}</td><td>A+{{ forloop.counter }}</td><td>{{ v }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="panel">
+    <h3 class="h3">Editar y recalcular</h3>
+    <form method="post" class="form">
+      {% csrf_token %}
+      <div class="form-grid" style="grid-template-columns:1fr;">
+        <div class="form-control"><label>Especie</label>{{ form_edit.especie }}</div>
+        <div class="form-control"><label>Región</label>{{ form_edit.region }}</div>
+        <div class="form-control"><label>Comuna</label>{{ form_edit.comuna }}</div>
+        <div class="form-control"><label>Superficie (ha)</label>{{ form_edit.superficie_ha }}</div>
+        <div class="form-control"><label>Edad del árbol (años)</label>{{ form_edit.edad_arbol_anios }}</div>
+        <div class="form-control"><label>Densidad (árboles/ha)</label>{{ form_edit.densidad_arboles_ha }}</div>
+        <div class="form-control"><label>Sistema de riego</label>{{ form_edit.sistema_riego }}</div>
+      </div>
+      <div class="actions">
+        <button class="btn" type="submit">Guardar y recalcular</button>
+      </div>
+    </form>
+  </section>
+</div>
+
+{% endblock %}

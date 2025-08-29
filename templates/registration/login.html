@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Ingresar · AgroPredict{% endblock %}
+{% block body_class %}page-auth{% endblock %}
+
+{% block content %}
+  <!-- Barra superior (hero) -->
+  <div class="auth-hero">
+    <div class="auth-hero-inner">
+      <span class="auth-brand">AgroPredict</span>
+      <span class="auth-tag">Demo offline Sprint 1</span>
+    </div>
+  </div>
+
+  <!-- Área centrada -->
+  <div class="auth-shell">
+    <section class="card auth-card">
+      <header class="auth-head">
+        <div class="auth-title">Ingreso</div>
+        <div class="auth-sub">Accede a tu panel de predicciones</div>
+      </header>
+
+      {% if form.errors %}
+        <div class="alert">Usuario o contraseña inválidos.</div>
+      {% endif %}
+
+      <form method="post" class="form">
+        {% csrf_token %}
+        <div class="form-grid one-col">
+          <div class="form-control">
+            <label>Usuario</label>
+            {{ form.username }}
+          </div>
+          <div class="form-control">
+            <label>Contraseña</label>
+            {{ form.password }}
+          </div>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn btn-block">Entrar</button>
+        </div>
+      </form>
+
+      <footer class="auth-foot">
+        v0.1 • Creado por <b>Treering</b>
+      </footer>
+    </section>
+  </div>
+{% endblock %}
