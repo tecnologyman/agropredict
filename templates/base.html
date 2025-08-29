@@ -11,17 +11,22 @@
 <div class="app">
   <!-- Sidebar -->
   <aside class="sidebar">
-    <a class="brand" href="/"><span class="logo-emoji">🌳</span> <span class="brand-name">AgroPredict</span></a>
+    <a class="brand" href="/">
+      <span class="logo-emoji">🌳</span>
+      <span class="brand-name">AgroPredict</span>
+    </a>
     <nav class="nav">
       <a class="nav-item {% if request.path == '/' %}active{% endif %}" href="/">Dashboard</a>
+      {# activa para /prediccion/ y /prediccion/<id>/ #}
       <a class="nav-item {% if request.path|slice:':12' == '/prediccion' %}active{% endif %}" href="/prediccion/">Predicción</a>
     </nav>
-    <div class="sb-foot">v0.1 • Demo offline Sprint 1<br>Hecho por <b>Treering</b></div>
+    <div class="sb-foot">v0.1 • Demo offline Sprint 1<br>Creado por <b>Treering</b></div>
   </aside>
 
   <!-- Topbar -->
   <header class="topbar">
-    <div class="title">{% block top_title %}Dashboard ejecutivo{% endblock %}</div>
+    <div class="title">{% block top_title %}{{ top_title|default:"Dashboard ejecutivo" }}{% endblock %}</div>
+
     <div class="top-right">
       {% if user.is_authenticated %}
         <span class="chip">👤 {{ user.username }}</span>
@@ -37,7 +42,5 @@
     {% block content %}{% endblock %}
   </main>
 </div>
-
-{% block extra_js %}{% endblock %}
 </body>
 </html>

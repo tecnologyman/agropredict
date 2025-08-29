@@ -1,103 +1,121 @@
 {% extends 'base.html' %}
-{% load static %}
-{% block title %}Nueva Predicción · AgroPredict{% endblock %}
+{% block title %}Crear predicción · AgroPredict{% endblock %}
 {% block top_title %}Crear predicción{% endblock %}
 
 {% block content %}
-<form method="post" class="card form form-surface" id="pred-form" data-comunas-endpoint="/api/comunas/">
-  {% csrf_token %}
+<section class="card form-card gradient-card">
+  <form method="post" class="form">
+    {% csrf_token %}
 
-  <div class="form-grid">
-    <!-- Columna izquierda -->
-    <div class="field-panel">
-      <div class="panel-head">Especie</div>
-      <div class="form-control">{{ form.especie.label_tag }}{{ form.especie }}</div>
+    <!-- Mensajes de error globales -->
+    {{ form.non_field_errors }}
 
-      <div class="panel-head">Ubicación</div>
-      <div class="form-control">
-        <label>Región</label>
-        {{ form.region }}
-      </div>
-      <div class="form-control">
-        <label>Comuna</label>
-        {{ form.comuna }}
-      </div>
-
-      <div class="panel-foot small-muted">Selecciona región para cargar comunas.</div>
+    <!-- GRID 2 columnas -->
+    <div class="form-grid two-col">
+  <!-- Columna izquierda -->
+  <div class="form-col">
+    <div class="form-control colorized fc-morado">
+      <label>Especie</label>
+      {{ form.especie }} {{ form.especie.errors }}
     </div>
 
-    <!-- Columna derecha -->
-    <div class="field-panel">
-      <div class="panel-head">Parámetros del huerto</div>
-      <div class="form-control">
-        <label>Superficie Plantada (ha)</label>
-        {{ form.superficie_ha }}
-      </div>
-      <div class="form-control">
-        <label>Edad del árbol (años)</label>
-        {{ form.edad_arbol_anios }}
-      </div>
-      <div class="form-control">
-        <label>Densidad de plantación (árboles/ha)</label>
-        {{ form.densidad_arboles_ha }}
-      </div>
-      <div class="form-control">
-        <label>Sistema de riego</label>
-        {{ form.sistema_riego }}
-      </div>
+    <div class="form-control colorized fc-azul">
+      <label>Comuna</label>
+      {{ form.comuna }} {{ form.comuna.errors }}
+    </div>
+
+    <div class="form-control colorized fc-magenta">
+      <label>Edad del árbol (años)</label>
+      {{ form.edad_arbol_anios }} {{ form.edad_arbol_anios.errors }}
+    </div>
+
+    <div class="form-control colorized fc-verde">
+      <label>Sistema de riego</label>
+      {{ form.sistema_riego }} {{ form.sistema_riego.errors }}
     </div>
   </div>
 
-  <div class="actions">
-    <button class="btn" type="submit">Calcular predicción</button>
-  </div>
-</form>
-{% endblock %}
+  <!-- Columna derecha -->
+  <div class="form-col">
+    <div class="form-control colorized fc-morado">
+      <label>Región</label>
+      {{ form.region }} {{ form.region.errors }}
+    </div>
 
-{% block extra_js %}
+    <div class="form-control colorized fc-magenta">
+      <label>Superficie Plantada (ha)</label>
+      {{ form.superficie_ha }} {{ form.superficie_ha.errors }}
+    </div>
+
+    <div class="form-control colorized fc-azul">
+      <label>Densidad de plantación (árboles/ha)</label>
+      {{ form.densidad_arboles_ha }} {{ form.densidad_arboles_ha.errors }}
+    </div>
+  </div>
+</div>
+
+    <div class="actions">
+      <button class="btn" type="submit">Calcular predicción</button>
+      <a href="/" class="btn-link">Cancelar</a>
+    </div>
+  </form>
+</section>
+
+<!-- ==== JS: Region -> Comunas (select dependiente) ==== -->
 <script>
 (function(){
-  const formEl = document.getElementById('pred-form');
-  const regionEl = document.getElementById('id_region');
-  const comunaEl = document.getElementById('id_comuna');
-  const endpointBase = formEl.dataset.comunasEndpoint || "/api/comunas/";
+  const regionSelect = document.getElementById("id_region");
+  const comunaSelect = document.getElementById("id_comuna");
 
-  // slugify compatible con el servidor
-  const slugify = (s) => {
-    return s
-      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-      .replace(/[’']/g, '')
+  if (!regionSelect || !comunaSelect) return;
+
+  // Normaliza a slug (como en cl_geo.region_slug)
+  function toSlug(txt){
+    return (txt || "")
       .toLowerCase()
-      .split(/\s+/).join('-');
-  };
-
-  async function loadComunas(regionName){
-    if(!regionName) return;
-    const url = endpointBase + slugify(regionName) + "/";
-    try{
-      const resp = await fetch(url, {credentials: "same-origin"});
-      if(!resp.ok) return;
-      const data = await resp.json();
-      const comunas = data.comunas || [];
-      comunaEl.innerHTML = "";
-      const opt0 = document.createElement('option');
-      opt0.value = ""; opt0.textContent = "— Selecciona comuna —";
-      comunaEl.appendChild(opt0);
-      comunas.forEach(c=>{
-        const o = document.createElement('option');
-        o.value = c; o.textContent = c;
-        comunaEl.appendChild(o);
-      });
-    }catch(e){}
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+      .replace(/[’']/g,"")
+      .replace(/\s+/g,"-")
+      .replace(/[^a-z0-9-]/g,"");
   }
 
-  regionEl && regionEl.addEventListener('change', (e)=>{
-    loadComunas(e.target.value);
+  async function cargarComunas(regionName, preselect){
+    const slug = toSlug(regionName);
+    try{
+      const resp = await fetch(`/api/comunas/${slug}/`, {headers:{'X-Requested-With':'XMLHttpRequest'}});
+      if(!resp.ok) throw new Error("HTTP " + resp.status);
+      const data = await resp.json();
+      const comunas = data.comunas || [];
+
+      // Limpia y arma opciones
+      comunaSelect.innerHTML = "";
+      const ph = document.createElement("option");
+      ph.value = ""; ph.textContent = "— Selecciona comuna —";
+      comunaSelect.appendChild(ph);
+
+      comunas.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c; opt.textContent = c;
+        if(preselect && preselect === c) opt.selected = true;
+        comunaSelect.appendChild(opt);
+      });
+
+      // Forzar estilo/validación si tu widget lo requiere
+      comunaSelect.dispatchEvent(new Event('change'));
+    }catch(e){
+      console.error("No se pudieron cargar comunas:", e);
+    }
+  }
+
+  // Cuando cambia la región
+  regionSelect.addEventListener("change", (ev)=>{
+    cargarComunas(regionSelect.value, null);
   });
 
-  // Primer render (si viene con región en instancia/POST)
-  if(regionEl && regionEl.value){
-    loadComunas(regionEl.value);
+  // Primera carga: si ya hay región (y quizá comuna) desde instancia
+  const preselectedComuna = "{{ form.initial.comuna|default_if_none:'' }}";
+  if (regionSelect.value) {
+    cargarComunas(regionSelect.value, preselectedComuna);
   }
 })();
 </script>

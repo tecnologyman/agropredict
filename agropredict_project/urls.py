@@ -10,4 +10,5 @@ urlpatterns = [
     path('', core_views.dashboard, name='dashboard'),
     path('prediccion/', core_views.prediccion_form, name='prediccion_form'),
     path('prediccion/<int:pk>/', core_views.prediccion_resultado, name='prediccion_resultado'),
+    path("api/comunas/<slug:region_slug_value>/", core_views.comunas_api, name="api_comunas"),
 ]

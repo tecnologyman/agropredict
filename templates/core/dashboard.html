@@ -24,7 +24,7 @@
     <div class="kpi-head">
       <h4>Ventana de riego (48h)</h4><span class="tag">Decisión</span>
     </div>
-    <div class="kpi-value">{{ kpi_ventana_riego }}</div>
+    <div class="kpi-value">~ {{ kpi_ventana_riego }}</div>
   </div>
 
   <div class="card small">
@@ -40,29 +40,46 @@
   <h3 class="h3">Producción esperada (últimas 5 predicciones)</h3>
 
   <svg class="chart" viewBox="0 0 1100 260" aria-label="Serie últimas predicciones">
-    <!-- Ejes -->
-    <line x1="50" y1="20" x2="50" y2="230" stroke="#E4E8F0" stroke-width="2"/>
-    <line x1="50" y1="230" x2="1080" y2="230" stroke="#E4E8F0" stroke-width="2"/>
+    <defs>
+      <linearGradient id="apFill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.20"/>
+        <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.04"/>
+      </linearGradient>
+    </defs>
 
-    <!-- Cuadrícula vertical -->
-    {% for gx in grid_x_positions %}
-      <line x1="{{ gx }}" y1="30" x2="{{ gx }}" y2="230" stroke="#F0F3F9" stroke-width="1"/>
+    <!-- Ejes -->
+    <line x1="{{ x_min }}" y1="20" x2="{{ x_min }}" y2="{{ y_base }}" stroke="#E4E8F0" stroke-width="2"/>
+    <line x1="{{ x_min }}" y1="{{ y_base }}" x2="{{ x_max }}" y2="{{ y_base }}" stroke="#E4E8F0" stroke-width="2"/>
+
+    <!-- Cuadrícula vertical (posiciones ya calculadas) -->
+    {% for x in grid_xs %}
+      <line x1="{{ x }}" y1="{{ y_top|default:20|add:'10' }}" x2="{{ x }}" y2="{{ y_base }}" stroke="#F0F3F9" stroke-width="1"/>
     {% endfor %}
 
     {% if chart_has_data %}
       <!-- Línea -->
       <polyline fill="none" stroke="var(--accent)" stroke-width="4" points="{{ chart_points }}"/>
+
+      <!-- Relleno bajo curva -->
+      <polygon fill="url(#apFill)" points="{{ chart_fill_points }}"/>
+
+      <!-- Puntos (opcionales) -->
+      {% for x,y in chart_points_xy %}
+        <circle cx="{{ x }}" cy="{{ y }}" r="3" fill="var(--accent)"/>
+      {% endfor %}
     {% else %}
-      <text x="550" y="130" text-anchor="middle" fill="#9AA0AF" font-size="14">Sin datos suficientes para graficar</text>
+      <text x="550" y="130" text-anchor="middle" fill="#9AA0AF" font-size="14">
+        Sin datos suficientes para graficar
+      </text>
     {% endif %}
   </svg>
 
   {% if chart_has_data %}
-  <div class="muted" style="margin-top:6px;font-size:13px;">
-    {% for lbl in chart_labels %}
-      {% if not forloop.first %} · {% endif %}{{ lbl }}
-    {% endfor %}
-  </div>
+    <div class="muted" style="margin-top:6px;font-size:13px;">
+      {% for lbl in chart_labels %}
+        {% if not forloop.first %} · {% endif %}{{ lbl }}
+      {% endfor %}
+    </div>
   {% endif %}
 </section>
 
