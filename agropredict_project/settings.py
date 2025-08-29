@@ -1,18 +1,9 @@
-<<<<<<< HEAD
-=======
 # agropredict_project/settings.py
->>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
 from pathlib import Path
 import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-<<<<<<< HEAD
-SECRET_KEY = 'dev-secret-key-agropredict'  # Para demo local
-DEBUG = True
-ALLOWED_HOSTS = []
-
-=======
 # --- Básico / Entorno ---
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'dev-secret-agropredict-styled')
 DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() == 'true'
@@ -36,21 +27,12 @@ CSRF_TRUSTED_ORIGINS = [
 # Ejemplo de valor: https://tu-servicio.onrender.com,https://algo.railway.app
 
 # --- Apps ---
->>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-<<<<<<< HEAD
-    'django.contrib.staticfiles',
-    'core',
-]
-
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-=======
 
     # WhiteNoise: usar su servidor de estáticos (desactiva el de runserver)
     'whitenoise.runserver_nostatic',
@@ -66,7 +48,6 @@ MIDDLEWARE = [
     # WhiteNoise para archivos estáticos en producción
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
->>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -95,22 +76,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'agropredict_project.wsgi.application'
 
-<<<<<<< HEAD
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},
-]
-
-=======
 # --- Base de datos (SQLite) ---
 # Nota: en plataformas serverless/containers el disco puede ser efímero.
 # Para demo temporal está OK; no recomendado para datos persistentes.
@@ -131,19 +96,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # --- Locale ---
->>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
 LANGUAGE_CODE = 'es'
 TIME_ZONE = 'America/Santiago'
 USE_I18N = True
 USE_TZ = True
 
-<<<<<<< HEAD
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-=======
 # --- Archivos estáticos ---
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']  # donde pones tus assets en desarrollo
@@ -163,6 +120,5 @@ CSRF_COOKIE_SECURE = not DEBUG
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # --- Auth redirects ---
->>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'

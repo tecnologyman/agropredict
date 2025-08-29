@@ -11,18 +11,6 @@
 <div class="app">
   <!-- Sidebar -->
   <aside class="sidebar">
-<<<<<<< HEAD
-    <a class="brand" href="/">
-      <span class="logo-emoji">🌳</span>
-      <span class="brand-name">AgroPredict</span>
-    </a>
-    <nav class="nav">
-      <a class="nav-item {% if request.path == '/' %}active{% endif %}" href="/">Dashboard</a>
-      {# activa para /prediccion/ y /prediccion/<id>/ #}
-      <a class="nav-item {% if request.path|slice:':12' == '/prediccion' %}active{% endif %}" href="/prediccion/">Predicción</a>
-    </nav>
-    <div class="sb-foot">v0.1 • Demo offline Sprint 1<br>Creado por <b>Treering</b></div>
-=======
     <div class="brand">
       <span class="logo-emoji" aria-hidden="true">🌳</span>
       <span class="brand-name">AgroPredict</span>
@@ -32,17 +20,11 @@
       <a class="nav-item {% if request.path == '/prediccion/' %}active{% endif %}" href="/prediccion/">Predicción</a>
     </nav>
     <div class="sb-foot">Hecho por Treering · Demo offline Sprint 1</div>
->>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
   </aside>
 
   <!-- Topbar -->
   <header class="topbar">
-<<<<<<< HEAD
-    <div class="title">{% block top_title %}{{ top_title|default:"Dashboard ejecutivo" }}{% endblock %}</div>
-
-=======
     <div class="title">{% block top_title %}Dashboard ejecutivo{% endblock %}</div>
->>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
     <div class="top-right">
       {% if user.is_authenticated %}
         <span class="chip">👤 {{ user.username }}</span>
@@ -53,10 +35,6 @@
     </div>
   </header>
 
-<<<<<<< HEAD
-  <!-- Main -->
-=======
->>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
   <main class="main">
     {% block content %}{% endblock %}
   </main>

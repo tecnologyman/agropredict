@@ -1,121 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}Dashboard · AgroPredict{% endblock %}
 {% block top_title %}Dashboard ejecutivo{% endblock %}
-<<<<<<< HEAD
-
-{% block content %}
-
-<!-- KPIs -->
-<section class="kpis">
-  <div class="card small">
-    <div class="kpi-head">
-      <h4>Riesgo de heladas (hoy)</h4><span class="tag">Estado</span>
-    </div>
-    <div class="kpi-value">{{ kpi_riesgo }}</div>
-  </div>
-
-  <div class="card small">
-    <div class="kpi-head">
-      <h4>ET0 estimada (hoy)</h4><span class="tag">Demanda agua</span>
-    </div>
-    <div class="kpi-value">{{ kpi_et0|floatformat:1 }} mm</div>
-  </div>
-
-  <div class="card small">
-    <div class="kpi-head">
-      <h4>Ventana de riego (48h)</h4><span class="tag">Decisión</span>
-    </div>
-    <div class="kpi-value">~ {{ kpi_ventana_riego }}</div>
-  </div>
-
-  <div class="card small">
-    <div class="kpi-head">
-      <h4>Precipitación (7 días)</h4><span class="tag">Acumulado</span>
-    </div>
-    <div class="kpi-value">{{ kpi_precip_7d }} mm</div>
-  </div>
-</section>
-
-<!-- Gráfico general -->
-<section class="panel">
-  <h3 class="h3">Producción esperada (últimas 5 predicciones)</h3>
-
-  <svg class="chart" viewBox="0 0 1100 260" aria-label="Serie últimas predicciones">
-    <defs>
-      <linearGradient id="apFill" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.20"/>
-        <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.04"/>
-      </linearGradient>
-    </defs>
-
-    <!-- Ejes -->
-    <line x1="{{ x_min }}" y1="20" x2="{{ x_min }}" y2="{{ y_base }}" stroke="#E4E8F0" stroke-width="2"/>
-    <line x1="{{ x_min }}" y1="{{ y_base }}" x2="{{ x_max }}" y2="{{ y_base }}" stroke="#E4E8F0" stroke-width="2"/>
-
-    <!-- Cuadrícula vertical (posiciones ya calculadas) -->
-    {% for x in grid_xs %}
-      <line x1="{{ x }}" y1="{{ y_top|default:20|add:'10' }}" x2="{{ x }}" y2="{{ y_base }}" stroke="#F0F3F9" stroke-width="1"/>
-    {% endfor %}
-
-    {% if chart_has_data %}
-      <!-- Línea -->
-      <polyline fill="none" stroke="var(--accent)" stroke-width="4" points="{{ chart_points }}"/>
-
-      <!-- Relleno bajo curva -->
-      <polygon fill="url(#apFill)" points="{{ chart_fill_points }}"/>
-
-      <!-- Puntos (opcionales) -->
-      {% for x,y in chart_points_xy %}
-        <circle cx="{{ x }}" cy="{{ y }}" r="3" fill="var(--accent)"/>
-      {% endfor %}
-    {% else %}
-      <text x="550" y="130" text-anchor="middle" fill="#9AA0AF" font-size="14">
-        Sin datos suficientes para graficar
-      </text>
-    {% endif %}
-  </svg>
-
-  {% if chart_has_data %}
-    <div class="muted" style="margin-top:6px;font-size:13px;">
-      {% for lbl in chart_labels %}
-        {% if not forloop.first %} · {% endif %}{{ lbl }}
-      {% endfor %}
-    </div>
-  {% endif %}
-</section>
-
-<!-- Lista de predicciones -->
-{% for item in predicciones %}
-  <article class="card">
-    <div class="row">
-      <div>
-        <h3 class="h3">Predicción #{{ item.id }} · {{ item.get_especie_display }}</h3>
-        <div class="muted">{{ item.comuna }}, {{ item.region }} · {{ item.creado|date:"d/m/Y H:i" }}</div>
-      </div>
-      <div><a class="btn btn-link" href="{% url 'prediccion_resultado' item.id %}">Ver detalle</a></div>
-    </div>
-
-    <div class="kpis" style="grid-template-columns:repeat(3,1fr);margin-top:8px;">
-      <div>
-        <span class="kpi-label">Superficie</span>
-        <span class="kpi-value">{{ item.superficie_ha|floatformat:2 }} ha</span>
-      </div>
-      <div>
-        <span class="kpi-label">Producción (t)</span>
-        <span class="kpi-value">{{ item.produccion_esperada_t|floatformat:2 }}</span>
-      </div>
-      <div>
-        <span class="kpi-label">t/ha</span>
-        <span class="kpi-value">
-          {% if item.t_por_ha is not None %}{{ item.t_por_ha|floatformat:2 }}{% else %}—{% endif %}
-        </span>
-      </div>
-    </div>
-  </article>
-{% empty %}
-  <p class="muted">Aún no tienes predicciones.</p>
-{% endfor %}
-=======
 {% block content %}
 
 <section class="kpis">
@@ -180,6 +65,5 @@
     </article>
   {% endfor %}
 </section>
->>>>>>> 1929edb89119ee1b7292b948c6f40e50284b9889
 
 {% endblock %}
